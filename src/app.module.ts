@@ -10,4 +10,4 @@ import { RoomService } from './room/room.service';
 	controllers: [AppController],
 	providers: [AppService, RoomService],
 })
-export class AppModule {}
+export class AppModule { }
