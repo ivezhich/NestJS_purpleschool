@@ -1,13 +1,24 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RoomModule } from './room/room.module';
-import { CalendarModule } from './calendar/calendar.module';
-import { RoomService } from './room/room.service';
+import { ReservationModule } from './reservation/reservation.module';
+import { getMongoConfig } from './config/mongo.config';
 
 @Module({
-	imports: [RoomModule, CalendarModule],
+	imports: [
+		ConfigModule.forRoot(),
+		RoomModule,
+		ReservationModule,
+		MongooseModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: getMongoConfig,
+		}),
+	],
 	controllers: [AppController],
-	providers: [AppService, RoomService],
+	providers: [AppService],
 })
 export class AppModule { }
